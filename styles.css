@@ -1,0 +1,463 @@
+/*
+ * The page's own chrome. The grid, the charts, the tiles and the windows all
+ * bring their own dark theme with them (the body carries data-theme="dark"
+ * and every grid is built with theme: 'dark'), so nothing here reaches into
+ * the library's internals to recolour it. What is here is the wall around
+ * them: the masthead, the honesty banner, the panel captions, the severity
+ * chips, the ticker and the credits.
+ */
+
+:root {
+  --navy-900: #070d1a;
+  --navy-800: #0b1424;
+  --navy-700: #101d33;
+  --navy-600: #16273f;
+  --line: #1e3252;
+  --ink: #e8eef8;
+  --ink-dim: #9fb2cc;
+  --ink-faint: #71859f;
+  --good: #2f9e5e;
+  --warn: #d99b1c;
+  --bad: #d2453b;
+  --cool: #3d7fb8;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--navy-900);
+  color: var(--ink);
+}
+
+body {
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 12px;
+  gap: 10px;
+}
+
+a {
+  color: #7db3e8;
+}
+
+/* The masthead */
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(180deg, var(--navy-700), var(--navy-800));
+}
+
+.head-titles {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.head h1 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.head-sub {
+  margin: 2px 0 0;
+  color: var(--ink-dim);
+  font-size: 12.5px;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--navy-600);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--good);
+}
+
+.status-badge[data-state="warn"] .status-dot {
+  background: var(--warn);
+}
+
+.status-badge[data-state="critical"] .status-dot {
+  background: var(--bad);
+}
+
+.status-badge[data-state="warn"] {
+  border-color: var(--warn);
+}
+
+.status-badge[data-state="critical"] {
+  border-color: var(--bad);
+}
+
+.head-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.control {
+  padding: 7px 13px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--navy-600);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.control:hover {
+  border-color: var(--cool);
+}
+
+.control[aria-pressed="true"] {
+  border-color: var(--cool);
+  background: #17314e;
+}
+
+.pill {
+  padding: 5px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--navy-800);
+  color: var(--ink-dim);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.pill[data-mode="live"] {
+  border-color: var(--good);
+  color: #9fe3bb;
+}
+
+.pill[data-mode="recorded"] {
+  border-color: var(--cool);
+  color: #a9cdee;
+}
+
+.pill[data-mode="reconnecting"],
+.pill[data-mode="none"] {
+  border-color: var(--warn);
+  color: #eccf8d;
+}
+
+/* The honesty banner */
+
+.banner {
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--navy-800);
+}
+
+.banner-title {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+}
+
+.banner-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 8px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.banner-item {
+  display: flex;
+  gap: 8px;
+  align-items: baseline;
+  font-size: 12.5px;
+  color: var(--ink-dim);
+  min-width: 0;
+}
+
+.prov-tag {
+  flex: 0 0 auto;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #06101d;
+}
+
+.prov-live .prov-tag {
+  background: #47c07d;
+}
+
+.prov-recorded .prov-tag {
+  background: #6fa8d8;
+}
+
+.prov-derived .prov-tag {
+  background: #c8b06a;
+}
+
+.prov-simulated .prov-tag {
+  background: #a38ac4;
+}
+
+.prov-text {
+  min-width: 0;
+}
+
+/* The dashboard surface */
+
+.dash {
+  flex: 1 1 auto;
+  min-height: 720px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--navy-900);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  gap: 6px;
+}
+
+.panel-caption {
+  margin: 0;
+  flex: 0 0 auto;
+  color: var(--ink-faint);
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+
+.panel-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  gap: 6px;
+}
+
+.grid-pane {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.chart-pane {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.hidden-grid {
+  display: none;
+}
+
+.kpi-strip {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.donut-total {
+  margin: 0;
+  flex: 0 0 auto;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* The severity chips */
+
+.chip-bar {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 4px 11px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--navy-700);
+  color: var(--ink-dim);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--cool);
+}
+
+.chip[aria-pressed="true"] {
+  border-color: var(--cool);
+  background: #17314e;
+  color: var(--ink);
+}
+
+/* The ticker */
+
+.ticker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+  padding: 8px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--navy-800);
+  overflow: hidden;
+}
+
+.ticker-label {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.ticker-line {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 22px;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  font-size: 12.5px;
+  color: var(--ink-dim);
+}
+
+.ticker-item {
+  flex: 0 0 auto;
+}
+
+.ticker-item.sev-critical {
+  color: #ff9c92;
+}
+
+.ticker-item.sev-major {
+  color: #f0c66a;
+}
+
+/* The credits */
+
+.credits {
+  flex: 0 0 auto;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--navy-800);
+}
+
+.credits-title {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+}
+
+.credit-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 4px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+/* Waiting and failure */
+
+.loading {
+  margin: auto;
+  max-width: 520px;
+  text-align: center;
+}
+
+.loading h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.loading-message {
+  color: var(--ink-dim);
+}
+
+.loading-bar {
+  height: 4px;
+  margin-top: 12px;
+  border-radius: 999px;
+  background: var(--navy-600);
+  overflow: hidden;
+}
+
+.loading-fill {
+  height: 100%;
+  width: 0;
+  background: var(--cool);
+  transition: width 200ms ease;
+}
+
+/* Narrow screens: a wall is a desktop thing, so under 900px the windows
+   stack one above the other and nothing scrolls sideways. */
+
+@media (max-width: 899px) {
+  #app {
+    padding: 8px;
+  }
+
+  .head {
+    align-items: flex-start;
+  }
+
+  .banner-list,
+  .credit-list {
+    grid-template-columns: 1fr;
+  }
+
+  .dash {
+    min-height: 1400px;
+  }
+}

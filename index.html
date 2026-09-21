@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A network operations centre, on live internet data</title>
+    <meta
+      name="description"
+      content="A rearrangeable network operations wall for a fictional backbone carrier, drawn from a real carrier's public facility list and live BGP routing events. Built with Lattice Grid loaded by script tag, with no install and no build."
+    />
+    <link rel="icon" href="data:," />
+    <!--
+      The grid's stylesheet, from jsDelivr. Every address on this page names
+      the exact release, 1.66.0, and carries the hash of the file it expects,
+      so the page can never quietly pick up a different build than the one it
+      was checked against.
+    -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.66.0/lattice-grid.min.css"
+      integrity="sha384-mcpd7S8C5nz58bZDAXdYH6rzezEhfN7B4u2SlW426dSe20GnkxTu4TygyOILnCth"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-theme="dark">
+    <main id="app">
+      <div class="loading">
+        <h1>A network operations centre, on live internet data</h1>
+        <p class="loading-message">Starting...</p>
+      </div>
+    </main>
+
+    <!--
+      The library, as classic script tags. No npm install, no bundler, no
+      `type="module"`: each file runs as it arrives and leaves a global behind.
+
+        lattice-grid.min.js              LatticeGrid             the grid itself
+        modules/charts.min.js            LatticeGrid.createChart (extends the core, so it must follow it)
+        modules/chart-markermap.min.js   registers `markermap`   (extends the charts module, so it follows that)
+        modules/data-router.min.js       LatticeGridDataRouter
+        modules/kpi.min.js               LatticeGridKPI
+        modules/layout.min.js            LatticeGridLayout
+        modules/mock-socket.min.js       LatticeGridMockSocket
+
+      The order matters twice: the charts module folds itself into the core
+      global rather than defining its own, and the marker map registers a chart
+      type with the charts module. The rest are self-contained.
+    -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.66.0/lattice-grid.min.js"
+      integrity="sha384-Aju8UA+WHJD3w/36Zb1VCIZcyVLFnX6ZZMwwnRWb51f5P8xWwmovkcQ8wQ2VpVov"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.66.0/modules/charts.min.js"
+      integrity="sha384-reJRFkovEq1l2jj11yOvfVQmyctdO5aGenHAi0MAcEqofD8i42rnPFg0GosTNUAC"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.66.0/modules/chart-markermap.min.js"
+      integrity="sha384-MjslzoEsF5N1m9GCn8ea5J45qQ1u65NnklRZv9ZM553U+Q6NmbcDUjVdak6bfg35"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.66.0/modules/data-router.min.js"
+      integrity="sha384-/yBvMeZTBRteT9VTlvd5VnDslniWNzOWCqfDGEvToW5sERxx86hZwMxxgbpbo9dM"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.66.0/modules/kpi.min.js"
+      integrity="sha384-AaOjXC8+kQFGNkr6FHc/dJEzOsy/1IMKDGhIXtAuWJBf/IJsqPISnGWMMkD8L1aj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.66.0/modules/layout.min.js"
+      integrity="sha384-2Ge0n/gcG/6ehV/S63JaydGUOEXuPk/mi8E7qpiaBx+Nwx3hQ7/KkNiXMSRms8+2"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.66.0/modules/mock-socket.min.js"
+      integrity="sha384-dN9vJYNz9v1/dyVowsfMvhQRIlYnIYCVKAfdOZnWAA8rbeCCZCF4xvQg/JKdfqUN"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- The demo's own code, in the order each file needs the one before it. -->
+    <script src="./src/licence.js"></script>
+    <script src="./src/snapshot.js"></script>
+    <script src="./src/simulator.js"></script>
+    <script src="./src/formatting.js"></script>
+    <script src="./src/columns.js"></script>
+    <script src="./src/banner.js"></script>
+    <script src="./src/layout.js"></script>
+    <script src="./src/chips.js"></script>
+    <script src="./src/feed.js"></script>
+    <script src="./src/wiring.js"></script>
+    <script src="./src/live.js"></script>
+    <script src="./main.js"></script>
+  </body>
+</html>

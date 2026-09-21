@@ -1,0 +1,34 @@
+name: Check the page
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# One check at a time: two browsers racing on one runner is a flaky result,
+# not a faster one.
+concurrency:
+  group: verify
+  cancel-in-progress: false
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the demo
+        uses: actions/checkout@v4
+
+      # Node is only needed for the browser check. The page itself loads the
+      # grid from jsDelivr by script tag, so there is nothing to install.
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # With no arguments the check runs the page with the routing feed turned
+      # off, so it replays the recording in data/ and needs nothing beyond the
+      # CDN. That is deliberate: a check that needed RIPE RIS to be reachable
+      # would go red for reasons that are not the page's.
+      - name: Check the page works in a browser
+        run: node tools/verify.mjs
