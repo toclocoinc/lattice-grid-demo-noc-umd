@@ -258,6 +258,15 @@
             const topLinks = LatticeGrid.createHeadlessGrid({
                 rowKey: 'id',
                 source: { mode: 'derived', from: linkGrid, sort: [{ col: 'load', dir: 'desc' }], limit: 5 },
+                // the same three rules as the topology: since 1.71.1 a bar takes its
+                // colour from the rules on its own grid's value column
+                formatting: {
+                    load: [
+                        { id: 'quiet',     label: 'Within SLA',     when: { op: 'lt',  value: 40 }, style: { background: '#1a7f37', color: '#fff' } },
+                        { id: 'busy',      label: 'At risk',        when: { op: 'lt',  value: 80 }, style: { background: '#f2a900', color: '#1b1b1b' } },
+                        { id: 'saturated', label: 'SLA breached',   when: { op: 'gte', value: 80 }, style: { background: '#c02c38', color: '#fff' } },
+                    ],
+                },
                 columns: [
                     { field: 'from', title: 'From' },
                     { field: 'to', title: 'To' },
@@ -270,6 +279,7 @@
                 container: document.getElementById('linkUtilisation-body'),
                 type: 'horizontalBar',
                 x: 'link', y: 'load',
+                labels: true,                                   // the figure at the end of each bar (1.71.1)
             });
 
             window.siteGrid = siteGrid;                       // the map module below reads it
