@@ -35,6 +35,9 @@
             #title-body img { width: 44px; height: 44px; flex: none; }
             #title-body .brand-name { font-size: 18px; font-weight: 700; color: #1b2a49; line-height: 1.2; }
             #title-body .brand-sub { font-size: 12px; color: #586069; }
+            #title-body .brand-links { font-size: 12px; margin-top: 2px; }
+            #title-body .brand-links a { color: #1b4fa8; text-decoration: none; }
+            #title-body .brand-links a:hover { text-decoration: underline; }
         </style>
         <script src="data.js"></script>
     </head>
@@ -81,7 +84,10 @@
                 const text = document.createElement('div');
                 const name = document.createElement('div'); name.className = 'brand-name'; name.textContent = 'Network Operations Demo';
                 const sub = document.createElement('div'); sub.className = 'brand-sub'; sub.textContent = 'Powered by Lattice Grid';
-                text.append(name, sub); brand.replaceChildren(mark, text);
+                const links = document.createElement('div'); links.className = 'brand-links';
+                const link = (href, label) => { const a = document.createElement('a'); a.href = href; a.textContent = label; a.target = '_blank'; a.rel = 'noopener'; return a; };
+                links.append(link('https://github.com/toclocoinc/lattice-grid-demo-noc-umd', 'Source on GitHub'), document.createTextNode(' \u00b7 '), link('https://www.latticegrid.dev/', 'latticegrid.dev'));
+                text.append(name, sub, links); brand.replaceChildren(mark, text);
             }
 
             const rows = [
