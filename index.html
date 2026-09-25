@@ -434,6 +434,7 @@
                 grid: trendGrid,
                 container: document.getElementById('incidentTrend-body'),
                 type: 'bar', x: 'minute', series: 'raisedSeverityLabel', y: { col: 'raisedSeverityLabel', fn: 'count' }, stack: true,
+                scheme: ['#c02c38', '#f2a900', '#1a7f37'],      // Critical, Major, Minor: the series order the chart uses
                 // in live mode, keep only the last 24 hours on the axis:
                 // axes: { x: { window: { kind: 'time', span: 24 * 3600000 } } },
             });
