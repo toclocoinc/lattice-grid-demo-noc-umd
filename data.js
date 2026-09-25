@@ -856,11 +856,10 @@
       }
       try {
         const saved = await json(`${base}data/snapshot/outages.json`);
+        // Recorded detections are stamped with the moment they are shown, as the
+        // replayed BGP events are, so nothing on the wall dates from the recording day.
         feeds.outages.load(
-          outageAlarms(
-            (saved.latest || {}).countries || [],
-            ((saved.latest || {}).from || 0) * 1000,
-          ),
+          outageAlarms((saved.latest || {}).countries || [], Date.now()),
         );
       } catch (error) {
         emit({
