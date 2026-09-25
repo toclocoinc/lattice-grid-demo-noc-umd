@@ -53,8 +53,12 @@ in, many panels reading it, nothing counted twice.
 `data.js` runs in one of three modes, chosen when the page creates it:
 
 - **`snapshot` (the default here).** No network. The recorded feed is
-  replayed through the grid's own mock socket, so the wall moves exactly as
-  it did when the recording was taken, with no live connection required.
+  replayed through the grid's own mock socket, with no live connection
+  required. Each replayed alarm is stamped with the moment it is replayed,
+  not the moment it was originally recorded, so the wall fills as you watch
+  it rather than landing everything on the two minutes the recording
+  covers; the original recorded time travels alongside as
+  `recordedTimestamp` for anyone who wants it.
 - **`live`.** The page opens a WebSocket straight to
   [RIPE RIS Live](https://ris-live.ripe.net/) for real routing updates, and
   reads [IODA](https://ioda.inetintel.cc.gatech.edu/) and

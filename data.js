@@ -318,7 +318,13 @@
       }));
   }
 
-  /** Turn a recording into the generator `MockWebSocket` wants. It loops. */
+  /** Turn a recording into the generator `MockWebSocket` wants. It loops.
+   *
+   * Each replayed event is stamped with the moment it is replayed, not the
+   * moment it was recorded: the recording is ten minutes long and loops, so
+   * keeping the original times would pin every alarm to the same two minutes
+   * for as long as the page runs. The original time travels alongside as
+   * `recordedTimestamp` for anyone who wants it. */
   function* replay(capture) {
     const hosts = capture.hosts || [],
       events = capture.events || [];
@@ -330,7 +336,8 @@
       yield {
         type: "ris_message",
         data: {
-          timestamp: (recordedAt + offset) / 1000,
+          timestamp: Date.now() / 1000,
+          recordedTimestamp: (recordedAt + offset) / 1000,
           type: "UPDATE",
           host: `${hosts[hostIndex] || "rrc00"}.ripe.net`,
           peer_asn: String(peerAsn),
