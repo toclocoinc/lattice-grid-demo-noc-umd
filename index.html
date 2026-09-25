@@ -424,7 +424,7 @@
                 rowKey: 'id',
                 columns: [
                     { field: 'since', type: 'timestamp' },
-                    { field: 'severityLabel' },
+                    { field: 'raisedSeverityLabel' },       // the severity it was raised with; never restated
                     // the alarm's minute: its time floored to the minute, so bars sit on a per-minute time axis
                     { id: 'minute', type: 'timestamp', value: { compute: (v) => Math.floor(v.since / 60000) * 60000, deps: ['since'] } },
                 ],
@@ -433,7 +433,7 @@
             LatticeGrid.createChart({
                 grid: trendGrid,
                 container: document.getElementById('incidentTrend-body'),
-                type: 'bar', x: 'minute', series: 'severityLabel', y: { col: 'severityLabel', fn: 'count' }, stack: true,
+                type: 'bar', x: 'minute', series: 'raisedSeverityLabel', y: { col: 'raisedSeverityLabel', fn: 'count' }, stack: true,
                 // in live mode, keep only the last 24 hours on the axis:
                 // axes: { x: { window: { kind: 'time', span: 24 * 3600000 } } },
             });

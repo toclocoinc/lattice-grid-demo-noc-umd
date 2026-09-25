@@ -111,7 +111,7 @@
       "live, recorded offline, invented when simulated); status and availability are derived from its alarms.",
     alarm:
       "id (bgp:peer:prefix or outage:ioda:cc), class (bgp|outage), source, prefix, peerAsn, collector, vantage, " +
-      "siteId, site, country, severity, severityLabel, status, cleared, since, at, count, description, impact.",
+      "siteId, site, country, severity, severityLabel, raisedSeverityLabel (the severity first raised with), status, cleared, since, at, count, description, impact.",
     service:
       "id, name, weight, availability, status. An invented service, graded by the alarms live on the wall.",
     sample:
@@ -307,6 +307,7 @@
         country: row.code,
         severity: row.score >= 20000 ? "critical" : "major",
         severityLabel: row.score >= 20000 ? "Critical" : "Major",
+        raisedSeverityLabel: row.score >= 20000 ? "Critical" : "Major",
         status: "Active",
         cleared: false,
         since: at,
@@ -553,6 +554,8 @@
         count: alarm.count + 1,
         severity: flaps >= 3 ? "critical" : "major",
         severityLabel: flaps >= 3 ? "Critical" : "Major",
+        // the severity it was FIRST raised with, never restated: a trend counts this
+        raisedSeverityLabel: alarm.raisedSeverityLabel || (flaps >= 3 ? "Critical" : "Major"),
         description: `Prefix ${event.prefix} withdrawn by AS${event.peer}`,
         impact:
           flaps >= 3
