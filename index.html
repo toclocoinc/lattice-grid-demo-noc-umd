@@ -20,16 +20,18 @@
             .tick .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
             .tick .dot.critical { background: #c02c38; } .tick .dot.warn { background: #b26a00; } .tick .dot.info { background: #1a7f37; }
             .tick .at { font-weight: 700; color: #1b2a49; font-variant-numeric: tabular-nums; }
-            /* KPI tiles: square, filled by status, amber for warnings, and sized to the window */
+            /* KPI tiles: square, filled by status, amber for warnings, sized to the window.
+               Written to beat the module's own injected stylesheet in standards mode. */
             .lat-kpi { --lat-kpi-warn: #f2a900; --lat-kpi-good: #1a7f37; --lat-kpi-critical: #cf222e; height: 100%; gap: 0; }
-            .lat-kpi__tile { border: 0; border-radius: 0; height: 100%; justify-content: center; padding: 8px 14px; }
-            .lat-kpi__value { font-size: 1.9em; }
-            .lat-kpi__tile--good, .lat-kpi__tile--warn, .lat-kpi__tile--critical { border-left: 0; color: #fff; }
-            .lat-kpi__tile--good { background: var(--lat-kpi-good); }
-            .lat-kpi__tile--warn { background: var(--lat-kpi-warn); color: #1b1b1b; }
-            .lat-kpi__tile--critical { background: var(--lat-kpi-critical); }
-            .lat-kpi__tile--good .lat-kpi__label, .lat-kpi__tile--critical .lat-kpi__label { color: rgba(255,255,255,.85); }
-            .lat-kpi__tile--warn .lat-kpi__label { color: rgba(0,0,0,.7); }
+            .lat-kpi .lat-kpi__tile { border: 0; border-radius: 0; height: 100%; box-sizing: border-box; justify-content: center; padding: 2px 14px; gap: 0; overflow: hidden; }
+            .lat-kpi .lat-kpi__value { font-size: 1.5em; line-height: 1.05; }
+            .lat-kpi .lat-kpi__label { font-size: .75em; }
+            .lat-kpi .lat-kpi__tile--good, .lat-kpi .lat-kpi__tile--warn, .lat-kpi .lat-kpi__tile--critical { border-left: 0; color: #fff; }
+            .lat-kpi .lat-kpi__tile--good { background: var(--lat-kpi-good) !important; }
+            .lat-kpi .lat-kpi__tile--warn { background: var(--lat-kpi-warn) !important; color: #1b1b1b; }
+            .lat-kpi .lat-kpi__tile--critical { background: var(--lat-kpi-critical) !important; }
+            .lat-kpi .lat-kpi__tile--good .lat-kpi__label, .lat-kpi .lat-kpi__tile--critical .lat-kpi__label { color: rgba(255,255,255,.85); }
+            .lat-kpi .lat-kpi__tile--warn .lat-kpi__label { color: rgba(0,0,0,.7); }
             [data-lat-layout-body] { overflow: hidden; }
             #title-body { display: flex; align-items: center; gap: 14px; padding: 0 16px 0 28px; box-sizing: border-box; height: 100%; font-family: system-ui, sans-serif; }
             #title-body img { width: 44px; height: 44px; flex: none; }
