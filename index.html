@@ -2,17 +2,17 @@
 <html lang="en">
     <head>
         <title>Network Operations Demo - Lattice Grid</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/lattice-grid.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/lattice-grid.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/modules/layout.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/modules/data-router.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/modules/mock-socket.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/modules/charts.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/modules/chart-markermap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/modules/geo-world-110m.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/modules/kpi.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/modules/alarms.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.1/modules/tabs.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/lattice-grid.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/lattice-grid.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/layout.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/data-router.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/mock-socket.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/charts.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/chart-markermap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/geo-world-110m.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/kpi.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/alarms.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/tabs.min.js"></script>
         <style>
             #updates-body { display: flex; align-items: center; overflow: hidden; white-space: nowrap; font: 13px/1.4 system-ui, sans-serif; padding: 0 8px; }
             .tick { display: inline-flex; align-items: center; gap: 8px; padding: 4px 18px; border-right: 1px solid #c9d1e0; }
@@ -373,51 +373,25 @@
             });
             alarmGrid.on('rows:changed', renderTicker);
 
-            // Site status: a donut of sites by status, with its own legend carrying the
-            // counts and the total. The chart colours slices in category order, so the
-            // scheme is rebuilt from the statuses present each time the rows change.
-            const STATUS_ORDER = ['Operational', 'Degraded', 'Offline', 'Maintenance'];
-            const STATUS_COLOUR = { Operational: '#1a7f37', Degraded: '#f2a900', Offline: '#c02c38', Maintenance: '#6e7781' };
-            const statusBody = document.getElementById('siteStatus-body');
-            statusBody.style.cssText = 'display:flex;align-items:center;gap:12px;height:100%';
-            const statusChartHost = document.createElement('div'); statusChartHost.style.cssText = 'flex:1 1 55%;height:100%;min-width:0';
-            const statusLegend = document.createElement('div'); statusLegend.style.cssText = 'flex:0 0 45%;font:13px/1.9 system-ui,sans-serif';
-            statusBody.append(statusChartHost, statusLegend);
+            // Site status: a donut of sites by status. Since 1.71.3 the chart colours
+            // slices by NAME, carries the counts in its own legend, and draws the total
+            // in the hole, so the page no longer rebuilds it or draws its own legend.
             const statusGrid = LatticeGrid.createHeadlessGrid({
                 rowKey: 'status',
                 source: { mode: 'derived', from: siteGrid, groupBy: 'status', select: { n: { fn: 'count' } } },
                 columns: [
                     { field: 'status', title: 'Status' },
                     { field: 'n', title: 'Sites', type: 'number' },
-                    { id: 'rank', type: 'number', value: { compute: (v) => STATUS_ORDER.indexOf(v.status), deps: ['status'] } },
                 ],
             });
-            let statusChart = null;
-            const renderStatus = () => {
-                const counts = new Map();
-                for (let i = 0; i < statusGrid.rows.count(); i += 1) {
-                    const row = statusGrid.rows.get(i);
-                    counts.set(statusGrid.rows.value(row.key, 'status'), statusGrid.rows.value(row.key, 'n'));
-                }
-                const present = STATUS_ORDER.filter((k) => counts.has(k));
-                const total = present.reduce((sum, k) => sum + counts.get(k), 0);
-                // legend: a dot, the count and the label per status, plus the total
-                statusLegend.replaceChildren(...STATUS_ORDER.map((k) => {
-                    const line = document.createElement('div'); line.style.cssText = 'display:flex;align-items:center;gap:8px';
-                    const dot = document.createElement('span'); dot.style.cssText = `width:10px;height:10px;border-radius:50%;background:${STATUS_COLOUR[k]}`;
-                    const text = document.createElement('span'); text.textContent = `${counts.get(k) || 0} ${k}`;
-                    line.append(dot, text); return line;
-                }), Object.assign(document.createElement('div'), { textContent: `${total} sites`, style: 'margin-top:6px;font-weight:700' }));
-                if (statusChart) statusChart.destroy();
-                statusChart = LatticeGrid.createChart({
-                    grid: statusGrid,
-                    container: statusChartHost,
-                    type: 'donut', x: 'status', y: 'n',
-                    scheme: present.map((k) => STATUS_COLOUR[k]),   // slice colours in category order
-                    legend: false,
-                });
-            };
-            statusGrid.on('rows:changed', renderStatus);
+            LatticeGrid.createChart({
+                grid: statusGrid,
+                container: document.getElementById('siteStatus-body'),
+                type: 'donut', x: 'status', y: 'n',
+                scheme: { Operational: '#1a7f37', Degraded: '#f2a900', Offline: '#c02c38', Maintenance: '#6e7781' },
+                legend: { position: 'right', values: true },
+                centre: { value: 'total', label: 'sites' },
+            });
 
             // Incident trend: alarms per day, stacked by severity.
             const trendGrid = LatticeGrid.createHeadlessGrid({
@@ -434,7 +408,7 @@
                 grid: trendGrid,
                 container: document.getElementById('incidentTrend-body'),
                 type: 'bar', x: 'minute', series: 'raisedSeverityLabel', y: { col: 'raisedSeverityLabel', fn: 'count' }, stack: true,
-                scheme: ['#c02c38', '#f2a900', '#1a7f37'],      // Critical, Major, Minor: the series order the chart uses
+                scheme: { Critical: '#c02c38', Major: '#f2a900', Minor: '#1a7f37' },   // by NAME since 1.71.3
                 // in live mode, keep only the last 24 hours on the axis:
                 // axes: { x: { window: { kind: 'time', span: 24 * 3600000 } } },
             });
