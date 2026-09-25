@@ -38,7 +38,7 @@ active alarm, each one a live figure bound to the same feed as the grids
 below it.
 
 **Traffic over 24 hours**, in and out, as a line chart; **the five busiest
-links** by load, as a bar chart; **an hourly incident trend**, stacked by
+links** by load, as a bar chart; **a per-minute incident trend**, stacked by
 severity; **sites by status**, as a donut with its own legend; and **the
 five sites currently carrying the most active alarms**.
 
