@@ -99,4 +99,4 @@ key for its own published address only, which is why you will find one in
 the source. Keys for your own sites come from
 [latticegrid.dev](https://www.latticegrid.dev).
 
-This demo is built on Lattice Grid 1.71.3.
+This demo is built on Lattice Grid 1.87.0.

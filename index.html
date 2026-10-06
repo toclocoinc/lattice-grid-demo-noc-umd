@@ -2,17 +2,18 @@
 <html lang="en">
     <head>
         <title>Network Operations Demo - Lattice Grid</title>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/lattice-grid.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/lattice-grid.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/layout.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/data-router.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/mock-socket.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/charts.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/chart-markermap.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/geo-world-110m.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/kpi.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/alarms.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.71.3/modules/tabs.min.js"></script>
+        <link rel="icon" href="lattice-mark.svg">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/lattice-grid.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/lattice-grid.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/modules/layout.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/modules/data-router.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/modules/mock-socket.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/modules/charts.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/modules/chart-markermap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/modules/geo-world-110m.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/modules/kpi.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/modules/alarms.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@toclocoinc/lattice-grid@1.87.0/modules/tabs.min.js"></script>
         <style>
             #updates-body { display: flex; align-items: center; overflow: hidden; white-space: nowrap; font: 13px/1.4 system-ui, sans-serif; padding: 0 8px; }
             .tick { display: inline-flex; align-items: center; gap: 8px; padding: 4px 18px; border-right: 1px solid #c9d1e0; }
@@ -37,6 +38,8 @@
             #title-body img { width: 44px; height: 44px; flex: none; }
             #title-body .brand-name { font-size: 18px; font-weight: 700; color: #1b2a49; line-height: 1.2; }
             #title-body .brand-sub { font-size: 12px; color: #586069; }
+            #title-body .brand-sub a { color: inherit; text-decoration: none; }
+            #title-body .brand-sub a:hover { text-decoration: underline; }
             #title-body .brand-links { font-size: 12px; margin-top: 2px; }
             #title-body .brand-links a { color: #1b4fa8; text-decoration: none; }
             #title-body .brand-links a:hover { text-decoration: underline; }
@@ -85,10 +88,12 @@
                 const mark = document.createElement('img'); mark.src = 'lattice-mark.svg'; mark.alt = 'Lattice Grid'; mark.style.marginLeft = "20px";
                 const text = document.createElement('div');
                 const name = document.createElement('div'); name.className = 'brand-name'; name.textContent = 'Network Operations Demo';
-                const sub = document.createElement('div'); sub.className = 'brand-sub'; sub.textContent = 'Powered by Lattice Grid';
+                const sub = document.createElement('div'); sub.className = 'brand-sub';
+                const builtWith = document.createElement('a'); builtWith.href = 'https://www.latticegrid.dev/realtime-applications/'; builtWith.textContent = 'Lattice Grid';
+                sub.append('Built with ', builtWith);
                 const links = document.createElement('div'); links.className = 'brand-links';
                 const link = (href, label) => { const a = document.createElement('a'); a.href = href; a.textContent = label; a.target = '_blank'; a.rel = 'noopener'; return a; };
-                links.append(link('https://github.com/toclocoinc/lattice-grid-demo-noc-umd', 'Source on GitHub'), document.createTextNode(' \u00b7 '), link('https://www.latticegrid.dev/', 'latticegrid.dev'));
+                links.append(link('https://github.com/toclocoinc/lattice-grid-demo-noc-umd', 'Source on GitHub'));
                 text.append(name, sub, links); brand.replaceChildren(mark, text);
             }
 
